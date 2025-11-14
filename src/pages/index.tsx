@@ -327,8 +327,34 @@ export default function Home() {
               {/* Dark overlay for depth */}
               <div className="absolute inset-0 z-20 bg-gradient-to-br from-black/90 via-black/60 to-black/90" />
 
+              {/* Mobile Hero Section - Centered Logo and Tagline */}
+              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center px-8 md:hidden">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className="flex flex-col items-center space-y-3"
+                >
+                  <Image
+                    src="/kage.png"
+                    alt="Kage Protocol"
+                    width={120}
+                    height={40}
+                    priority
+                  />
+                  <div className="flex flex-col items-center space-y-2">
+                    <p className="text-2xl font-light leading-tight text-center text-white font-apfel-grotezk">
+                      Private,
+                    </p>
+                    <p className="text-2xl font-light leading-tight text-center text-white font-apfel-grotezk">
+                      Capital Markets.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+
               {/* Hero Text - "kage." */}
-              <div className="absolute inset-0 z-30 flex items-end justify-center px-8 overflow-hidden md:px-16">
+              <div className="absolute inset-0 z-[25] flex items-end justify-center px-8 overflow-hidden md:px-16">
                 <motion.h2
                   initial={{ opacity: 0, scale: 1.5, x: -60, y: 0 }}
                   animate={{ opacity: 0.15, scale: 1, x: 0, y: 0 }}
@@ -352,7 +378,7 @@ export default function Home() {
           ) : showManifesto ? (
             /* Manifesto Content */
             <div className="h-full p-8 overflow-y-auto md:p-12 overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
-              <div className="max-w-4xl mx-auto pt-12 md:pt-0">
+              <div className="max-w-4xl pt-12 mx-auto md:pt-0">
                 <button
                   onClick={() => setShowManifesto(false)}
                   className="mb-6 text-sm transition-colors text-white/60 hover:text-white"
@@ -442,7 +468,7 @@ export default function Home() {
             /* Products Content */
             <div className="h-full overflow-y-auto bg-black overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
               {/* Hero Section */}
-              <div className="relative min-h-screen px-8 py-16 md:px-16 lg:px-24 pt-20 md:pt-16">
+              <div className="relative min-h-screen px-8 py-16 pt-20 md:px-16 lg:px-24 md:pt-16">
                 {/* Background gradient effect */}
                 <div className="absolute inset-0 pointer-events-none">
                   <div
