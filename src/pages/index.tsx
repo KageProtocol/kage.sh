@@ -7,9 +7,10 @@
  ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝
 */
 
-import { DM_Sans, Instrument_Serif } from "next/font/google";
+import { DM_Sans, Instrument_Serif, Space_Grotesk } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
+import Head from "next/head";
 import { motion } from "framer-motion";
 import { useState } from "react";
 
@@ -19,32 +20,79 @@ const instrumentSerif = Instrument_Serif({
   weight: ["400"],
   variable: "--font-instrument-serif",
 });
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["700"],
+  variable: "--font-space-grotesk",
+});
 
 
 export default function Home() {
   const [showManifesto, setShowManifesto] = useState(false);
-  
+  const [showProducts, setShowProducts] = useState(false);
+
   const fadeIn = {
     hidden: { opacity: 0, y: 10 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
   return (
-    <main
-      className={`${dmSans.variable} ${instrumentSerif.variable} h-screen w-full bg-[#0b0b0b] text-white overflow-hidden`}
-    >
+    <>
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Kage Protocol",
+              "alternateName": "Kage",
+              "url": "https://kage.sh",
+              "logo": "https://kage.sh/kage.png",
+              "description": "The execution and verification layer for modern finance. Privacy protects your strategy. Proofs enforce your integrity.",
+              "sameAs": [
+                "https://x.com/kageprotocol",
+                "https://discord.gg/J4buKj5dN3",
+                "https://paragraph.com/@kageprotocol"
+              ],
+              "foundingDate": "2024",
+              "founders": [{
+                "@type": "Organization",
+                "name": "90kb Labs"
+              }],
+              "address": {
+                "@type": "PostalAddress",
+                "addressCountry": "US"
+              }
+            })
+          }}
+        />
+      </Head>
+      <main
+        className={`${dmSans.variable} ${instrumentSerif.variable} ${spaceGrotesk.variable} h-screen w-full bg-black text-white overflow-hidden`}
+      >
       <div className="grid h-screen grid-cols-1 md:grid-cols-[360px_1fr]">
         {/* Left rail */}
-        <aside className="flex flex-col h-screen px-5 py-6 border-r md:px-8 border-white/10">
+        <aside className="flex flex-col h-screen px-5 py-6 bg-black border-r md:px-8 border-white/10 font-apfel-grotezk">
           {/* Logo */}
-          <div className="mb-8">
-            <Image
-              src="/kage.png"
-              alt="Kage"
-              width={80}
-              height={26}
-              className=""
-            />
+          <div className="mb-8 -ml-5">
+            <button
+              onClick={() => {
+                setShowManifesto(false);
+                setShowProducts(false);
+              }}
+              className="transition-opacity hover:opacity-80"
+              aria-label="Return to home"
+            >
+              <Image
+                src="/kage.png"
+                alt="Kage Protocol - Private Execution and Verification Layer"
+                width={80}
+                height={26}
+                priority
+                className=""
+              />
+            </button>
           </div>
 
           {/* Headline */}
@@ -54,10 +102,8 @@ export default function Home() {
             animate="show"
             className="mb-10"
           >
-            <h1 className="text-4xl font-light leading-tight md:text-5xl font-instrument-serif">
-              Kage is
-              <br /> the Encrypted
-              <br /> Intents Engine.
+            <h1 className="text-3xl font-light leading-tight md:text-4xl font-instrument-serif">
+              Kage is redefining how capital moves in crypto with privacy and verifiability by default.
             </h1>
           </motion.div>
 
@@ -78,25 +124,34 @@ export default function Home() {
               Links
             </div>
             <div className="overflow-hidden border divide-y rounded-md divide-white/10 border-white/10">
-              <button 
-                onClick={() => setShowManifesto(true)}
+              <button
+                onClick={() => {
+                  setShowManifesto(true);
+                  setShowProducts(false);
+                }}
                 className="block w-full p-4 text-left hover:bg-white/5"
               >
                 <div className="text-xs uppercase text-white/60">
-                  Manifesto 
+                  Manifesto
                 </div>
                 <div className="mt-1 text-sm text-white/90">
                   Read the Kage scroll
                 </div>
               </button>
-              <Link href="#" className="block p-4 hover:bg-white/5">
+              <button
+                onClick={() => {
+                  setShowProducts(true);
+                  setShowManifesto(false);
+                }}
+                className="block w-full p-4 text-left hover:bg-white/5"
+              >
                 <div className="text-xs uppercase text-white/60">
-                  DM FOUNDER ↗
+                  Products
                 </div>
                 <div className="mt-1 text-sm text-white/90">
-                  Message the founder on TG
+                  Private execution, cryptographic verification.
                 </div>
-              </Link>
+              </button>
               <Link 
                 href="https://paragraph.com/@kageprotocol" 
                 target="_blank" 
@@ -178,21 +233,93 @@ export default function Home() {
         </aside>
 
         {/* Right area */}
-        <section className="relative overflow-hidden bg-[#0e0e0e]">
-          {!showManifesto ? (
+        <section className="relative h-screen overflow-hidden bg-black">
+          {!showManifesto && !showProducts ? (
             <>
-              {/* Background image with blend overlay */}
-              <div 
-                className="absolute inset-0 bg-center bg-no-repeat bg-cover opacity-60"
+              {/* Video Background */}
+              <div className="absolute inset-0 z-0 overflow-hidden bg-black">
+                <video
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  controlsList="nodownload nofullscreen noremoteplayback"
+                  disablePictureInPicture
+                  onContextMenu={(e) => e.preventDefault()}
+                  className="absolute inset-0 object-cover w-full h-full pointer-events-none select-none"
+                  style={{ opacity: 0.6 }}
+                >
+                  <source src="/images/kagecity.mp4" type="video/mp4" />
+                </video>
+              </div>
+
+              {/* Blurred Red Gradient Orb - positioned top left */}
+              <motion.div
+                className="absolute w-[600px] h-[600px] rounded-full opacity-50 z-10"
                 style={{
-                  backgroundImage: 'url(/kage_lore.jpg)',
+                  background: 'radial-gradient(circle, #fb2a26 0%, rgba(251, 42, 38, 0.6) 40%, transparent 70%)',
+                  filter: 'blur(100px)',
+                  left: '-100px',
+                  top: '-200px',
+                }}
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.4, 0.6, 0.4],
+                }}
+                transition={{
+                  duration: 8,
+                  ease: "easeInOut",
+                  repeat: Infinity,
                 }}
               />
-              {/* Dark overlay for blending */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#0b0b0b] via-transparent to-transparent opacity-80" />
-              <div className="absolute inset-0 bg-[#0e0e0e] mix-blend-multiply opacity-50" />
+
+              {/* Secondary Red Gradient Orb - positioned bottom right */}
+              <motion.div
+                className="absolute w-[500px] h-[500px] rounded-full opacity-40 z-10"
+                style={{
+                  background: 'radial-gradient(circle, #fb2a26 0%, rgba(251, 42, 38, 0.5) 50%, transparent 70%)',
+                  filter: 'blur(120px)',
+                  right: '-150px',
+                  bottom: '-150px',
+                }}
+                animate={{
+                  scale: [1, 1.15, 1],
+                  opacity: [0.3, 0.5, 0.3],
+                }}
+                transition={{
+                  duration: 10,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                  delay: 1,
+                }}
+              />
+
+              {/* Dark overlay for depth */}
+              <div className="absolute inset-0 z-20 bg-gradient-to-br from-black/90 via-black/60 to-black/90" />
+
+              {/* Hero Text - "kage." */}
+              <div className="absolute inset-0 z-30 flex items-end justify-center px-8 overflow-hidden md:px-16">
+                <motion.h2
+                  initial={{ opacity: 0, scale: 1.5, x: -60, y: 0 }}
+                  animate={{ opacity: 0.15, scale: 1, x: 0, y: 0 }}
+                  transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+                  className="font-normal text-white pointer-events-none select-none whitespace-nowrap font-dm-sans"
+                  style={{
+                    fontWeight: 400,
+                    lineHeight: '0.9em',
+                    letterSpacing: '5px',
+                    fontSize: 'clamp(9rem, 30vw, 35rem)',
+                    position: 'relative',
+                    bottom: '-10%',
+                    width: 'fit-content',
+                    mixBlendMode: 'screen',
+                  }}
+                >
+                  kage.
+                </motion.h2>
+              </div>
             </>
-          ) : (
+          ) : showManifesto ? (
             /* Manifesto Content */
             <div className="h-full p-8 overflow-y-auto md:p-12">
               <div className="max-w-4xl mx-auto">
@@ -281,9 +408,161 @@ export default function Home() {
                 </motion.article>
               </div>
             </div>
-          )}
+          ) : showProducts ? (
+            /* Products Content */
+            <div className="h-full overflow-y-auto bg-black">
+              {/* Hero Section */}
+              <div className="relative min-h-screen px-8 py-16 md:px-16 lg:px-24">
+                {/* Background gradient effect */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div
+                    className="absolute w-[652px] h-[652px] rounded-full opacity-20"
+                    style={{
+                      background: 'radial-gradient(circle, #fb2a26 0%, transparent 70%)',
+                      filter: 'blur(100px)',
+                      left: '50%',
+                      top: '20%',
+                      transform: 'translate(-50%, -50%)',
+                    }}
+                  />
+                </div>
+
+                <button
+                  onClick={() => setShowProducts(false)}
+                  className="relative z-10 mb-12 text-sm transition-colors text-white/60 hover:text-white"
+                >
+                  ← Back
+                </button>
+
+                {/* Hero Content */}
+                <motion.div
+                  variants={fadeIn}
+                  initial="hidden"
+                  animate="show"
+                  className="relative z-10 max-w-5xl mx-auto space-y-16"
+                >
+                  {/* Main Heading */}
+                  <div className="space-y-6">
+                    <h1 className="text-5xl font-normal leading-tight md:text-7xl lg:text-8xl font-apfel-grotezk">
+                      Products
+                    </h1>
+                    <div className="max-w-2xl space-y-3">
+                      <p className="text-base leading-relaxed md:text-lg text-white/70">
+                        Kage is the execution and verification layer for modern finance built to make crypto markets trustworthy at size. Privacy protects your strategy. Proofs enforce your integrity.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div className="w-full h-px bg-white/10" />
+
+                  {/* Product Cards */}
+                  <div className="space-y-12">
+                    {/* Card 1 */}
+                    <div className="p-8 transition-colors border rounded-lg md:p-12 border-white/10 hover:border-white/20 bg-white/5 backdrop-blur-sm">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between">
+                          <h2 className="text-3xl font-normal md:text-4xl font-apfel-grotezk">
+                            Kurō
+                          </h2>
+                          <span className="px-3 py-1 text-xs tracking-wider uppercase border rounded-full text-white/60 border-white/20">
+                            Dark Pool
+                          </span>
+                        </div>
+                        <p className="text-lg leading-relaxed text-white/70">
+                        Kurō executes block-trades, RFQs and OTC trades fully encrypted until settlement with zero price impact, eliminating frontrunning, copy-trading and protecting your strategies.
+                        </p>
+                        <div className="grid gap-3 pt-4 md:grid-cols-2">
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Zero MEV</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Encrypted Intent Execution</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Opt-In Compliance</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Cross-chain privacy</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 2 */}
+                    <div className="p-8 transition-colors border rounded-lg md:p-12 border-white/10 hover:border-white/20 bg-white/5 backdrop-blur-sm">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between">
+                          <h2 className="text-3xl font-normal md:text-4xl font-apfel-grotezk">
+                            Covenants
+                          </h2>
+                          <span className="px-3 py-1 text-xs tracking-wider uppercase border rounded-full text-white/60 border-white/20">
+                            Credit
+                          </span>
+                        </div>
+                        <p className="text-lg leading-relaxed text-white/70">
+                        Covenants make counterparty quality provable in real time with live, cryptographic attestations of solvency, leverage, and exposure.
+                        A primitive that powers undercollateralized credit, compliant vaults, and controlled market access.</p>
+                        <div className="grid gap-3 pt-4 md:grid-cols-2">
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Programmable policies</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Interoperable verification layer</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Verifiable computations</span>
+                          </div>
+                          <div className="flex items-start gap-3">
+                            <div className="w-1.5 h-1.5 mt-2 rounded-full bg-[#fb2a26]" />
+                            <span className="text-sm text-white/60">Live, cryptographic attestations</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Card 3 */}
+                    <div className="p-8 transition-colors border rounded-lg md:p-12 border-white/10 hover:border-white/20 bg-white/5 backdrop-blur-sm">
+                      <div className="space-y-4">
+                        <div className="flex items-start justify-between">
+                          <h2 className="text-3xl font-normal md:text-4xl font-apfel-grotezk">
+                            Kage Terminal
+                          </h2>
+                          <span className="px-3 py-1 text-xs tracking-wider uppercase border rounded-full text-white/60 border-white/20">
+                          Coming Soon
+                          </span>
+                        </div>
+                        <p className="text-lg leading-relaxed text-white/70">
+                          Kage Terminal is the command center for private liquidity operations.
+                          It gives funds, traders, committees, and treasuries a real-time view of their counterparties, covenant states, and trade anchors without ever revealing sensitive data or strategies.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Divider */}
+                  <div className="w-full h-px bg-white/10" />
+
+                  {/* Footer Note */}
+                  <div className="pb-16 text-center">
+                    <p className="text-sm text-white/40">
+                      More products and integrations coming soon
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          ) : null}
         </section>
       </div>
     </main>
+    </>
   );
 }

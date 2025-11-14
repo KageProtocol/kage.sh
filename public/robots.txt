@@ -1,0 +1,15 @@
+# robots.txt for Kage Protocol
+# https://kage.sh/robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://kage.sh/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Disallow certain paths (if needed in future)
+# Disallow: /admin/
+# Disallow: /api/

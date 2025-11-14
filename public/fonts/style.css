@@ -6,3 +6,21 @@
     font-weight: normal;
     src: local('Druk Wide Bold Bold'), url('DrukWideBold.woff') format('woff');
     }
+
+    @font-face {
+    font-family: 'Apfel Grotezk';
+    font-style: normal;
+    font-weight: 400;
+    src: url('ApfelGrotezk-Regular.woff') format('woff'),
+         url('ApfelGrotezk-Regular.otf') format('opentype');
+    font-display: swap;
+    }
+
+    @font-face {
+    font-family: 'Apfel Grotezk';
+    font-style: normal;
+    font-weight: 700;
+    src: url('ApfelGrotezk-RegularBrukt.woff') format('woff'),
+         url('ApfelGrotezk-RegularBrukt.otf') format('opentype');
+    font-display: swap;
+    }
