@@ -30,6 +30,7 @@ const spaceGrotesk = Space_Grotesk({
 export default function Home() {
   const [showManifesto, setShowManifesto] = useState(false);
   const [showProducts, setShowProducts] = useState(false);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
 
   const fadeIn = {
     hidden: { opacity: 0, y: 10 },
@@ -69,17 +70,44 @@ export default function Home() {
         />
       </Head>
       <main
-        className={`${dmSans.variable} ${instrumentSerif.variable} ${spaceGrotesk.variable} h-screen w-full bg-black text-white overflow-hidden`}
+        className={`${dmSans.variable} ${instrumentSerif.variable} ${spaceGrotesk.variable} h-screen w-full bg-black text-white overflow-hidden relative`}
       >
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        className="fixed z-50 p-3 transition-colors bg-black border rounded-lg top-4 right-4 md:hidden border-white/20 hover:bg-white/5"
+        aria-label="Toggle menu"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-white">
+          {showMobileMenu ? (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          ) : (
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          )}
+        </svg>
+      </button>
+
+      {/* Mobile Menu Overlay */}
+      {showMobileMenu && (
+        <div
+          className="fixed inset-0 z-30 bg-black/80 md:hidden"
+          onClick={() => setShowMobileMenu(false)}
+        />
+      )}
+
       <div className="grid h-screen grid-cols-1 md:grid-cols-[360px_1fr]">
         {/* Left rail */}
-        <aside className="flex flex-col h-screen px-5 py-6 bg-black border-r md:px-8 border-white/10 font-apfel-grotezk">
+        <aside
+          className={`flex flex-col h-screen px-5 py-6 bg-black border-r md:px-8 border-white/10 font-apfel-grotezk fixed md:relative w-[85vw] max-w-[360px] md:w-auto z-40 transition-transform duration-300 ${showMobileMenu ? 'translate-x-0' : '-translate-x-full md:translate-x-0'} overflow-y-auto overscroll-contain`}
+          style={{ WebkitOverflowScrolling: 'touch' }}
+        >
           {/* Logo */}
           <div className="mb-8 -ml-5">
             <button
               onClick={() => {
                 setShowManifesto(false);
                 setShowProducts(false);
+                setShowMobileMenu(false);
               }}
               className="transition-opacity hover:opacity-80"
               aria-label="Return to home"
@@ -128,6 +156,7 @@ export default function Home() {
                 onClick={() => {
                   setShowManifesto(true);
                   setShowProducts(false);
+                  setShowMobileMenu(false);
                 }}
                 className="block w-full p-4 text-left hover:bg-white/5"
               >
@@ -142,6 +171,7 @@ export default function Home() {
                 onClick={() => {
                   setShowProducts(true);
                   setShowManifesto(false);
+                  setShowMobileMenu(false);
                 }}
                 className="block w-full p-4 text-left hover:bg-white/5"
               >
@@ -233,7 +263,7 @@ export default function Home() {
         </aside>
 
         {/* Right area */}
-        <section className="relative h-screen overflow-hidden bg-black">
+        <section className="relative h-screen overflow-hidden bg-black md:ml-0">
           {!showManifesto && !showProducts ? (
             <>
               {/* Video Background */}
@@ -321,9 +351,9 @@ export default function Home() {
             </>
           ) : showManifesto ? (
             /* Manifesto Content */
-            <div className="h-full p-8 overflow-y-auto md:p-12">
-              <div className="max-w-4xl mx-auto">
-                <button 
+            <div className="h-full p-8 overflow-y-auto md:p-12 overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="max-w-4xl mx-auto pt-12 md:pt-0">
+                <button
                   onClick={() => setShowManifesto(false)}
                   className="mb-6 text-sm transition-colors text-white/60 hover:text-white"
                 >
@@ -410,9 +440,9 @@ export default function Home() {
             </div>
           ) : showProducts ? (
             /* Products Content */
-            <div className="h-full overflow-y-auto bg-black">
+            <div className="h-full overflow-y-auto bg-black overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
               {/* Hero Section */}
-              <div className="relative min-h-screen px-8 py-16 md:px-16 lg:px-24">
+              <div className="relative min-h-screen px-8 py-16 md:px-16 lg:px-24 pt-20 md:pt-16">
                 {/* Background gradient effect */}
                 <div className="absolute inset-0 pointer-events-none">
                   <div
